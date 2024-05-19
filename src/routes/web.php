@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\StampController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->group(function () {
-    Route::get('/', [StampController::class, 'index']);
-    Route::post('/', [StampController::class, 'store']);
-    Route::get('/attendance', [StampController::class, 'attendance']);
+Route::get('/', function () {
+    return view('welcome');
 });
-
