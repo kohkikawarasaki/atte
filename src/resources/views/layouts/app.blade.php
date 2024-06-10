@@ -28,6 +28,10 @@
 
                         </li>
                         <li class="header-nav-item">
+                            <a href="/user_list">ユーザー一覧</a>
+
+                        </li>
+                        <li class="header-nav-item">
                             <form action="/logout" method="POST">
                                 @csrf
                                 <button>ログアウト</button>

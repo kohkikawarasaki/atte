@@ -105,7 +105,7 @@ class StampController extends Controller
     {
         $users = User::all();
         $date = $request->input('date', Carbon::today()->toDateString());
-        $StampData = [];
+        $stampData = [];
 
         foreach ($users as $user) {
             $totalBreakTime = 0;
@@ -113,7 +113,7 @@ class StampController extends Controller
             $work = Work::where('user_id', $user->id)->where('work_date', $date)->first();
             if ($work) {
                 if ($work->end_time) {
-                    $breaks = Breaking::where('work_id', $work->id)->where('user_id', $user->id)->get();
+                    $breaks = Breaking::where('work_id', $work->id)->get();
                     foreach ($breaks as $break) {
                         if ($break->start_time && $break->end_time) {
                             $totalBreakTime += Carbon::parse($break->end_time)->diffInSeconds(Carbon::parse($break->start_time));
@@ -133,7 +133,7 @@ class StampController extends Controller
                     $formattedTotalBreakTime = '-';
                     $formattedTotalWorkTime = '-';
                 }
-                $StampData[] = [
+                $stampData[] = [
                     'user' => $user,
                     'work' => $work,
                     'totalBreakTime' => $formattedTotalBreakTime,
@@ -142,20 +142,80 @@ class StampController extends Controller
             }
         }
 
-        $StampData = collect($StampData);
+        $stampData = collect($stampData);
 
-        $StampData = new LengthAwarePaginator(
-            $StampData->forPage($request->page, 5),
-            count($StampData),
+        $stampData = new LengthAwarePaginator(
+            $stampData->forPage($request->page, 5),
+            count($stampData),
             5,
             $request->page,
             array('path' => $request->url())
         );
 
-        $StampData->appends(['date' => $date]);
+        $stampData->appends(['date' => $date]);
 
         $date = Carbon::parse($date);
 
-        return view('attendance', compact('StampData', 'date'));
+        return view('attendance', compact('stampData', 'date'));
+    }
+
+    public function userList()
+    {
+        $users = User::paginate(5);
+
+        return view('user_list', compact('users'));
+    }
+
+
+    public function userAttendance(Request $request)
+    {
+        $userName = User::find($request->userId)->name;
+        $works = Work::where('user_id', $request->userId)->orderby('work_date')->get();
+        $stampData = [];
+
+        foreach ($works as $work) {
+            $totalBreakTime = 0;
+            $totalWorkTime = 0;
+            if ($work->end_time) {
+                $breaks = Breaking::where('work_id', $work->id)->get();
+                foreach ($breaks as $break) {
+                    if ($break->start_time && $break->end_time) {
+                        $totalBreakTime += Carbon::parse($break->end_time)->diffInSeconds(Carbon::parse($break->start_time));
+                    }
+                }
+                $hours = floor($totalBreakTime / 3600);
+                $minutes = floor(($totalBreakTime % 3600) / 60);
+                $seconds = $totalBreakTime % 60;
+                $formattedTotalBreakTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+
+                $totalWorkTime = Carbon::parse($work->end_time)->diffInSeconds(Carbon::parse($work->start_time)) - $totalBreakTime;
+                $hours = floor($totalWorkTime / 3600);
+                $minutes = floor(($totalWorkTime % 3600) / 60);
+                $seconds = $totalWorkTime % 60;
+                $formattedTotalWorkTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+            } else {
+                $formattedTotalBreakTime = '-';
+                $formattedTotalWorkTime = '-';
+            }
+            $stampData[] = [
+                'work' => $work,
+                'totalBreakTime' => $formattedTotalBreakTime,
+                'totalWorkTime' => $formattedTotalWorkTime,
+            ];
+        }
+
+        $stampData = collect($stampData);
+
+        $stampData = new LengthAwarePaginator(
+            $stampData->forPage($request->page, 5),
+            count($stampData),
+            5,
+            $request->page,
+            array('path' => $request->url())
+        );
+
+        $stampData->appends(['userId' => $request->userId]);
+
+        return view('user_attendance', compact('stampData', 'userName'));
     }
 }
