@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(5)->create()->each(function ($user) {
-            Work::factory()->for($user)->create()->each(function ($work) use ($user) {
+        User::factory(8)->create()->each(function ($user) {
+            Work::factory(8)->for($user)->create()->each(function ($work) use ($user) {
                 Breaking::factory(rand(1, 3))->for($work)->for($user)->create();
             });
         });

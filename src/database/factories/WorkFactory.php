@@ -17,12 +17,13 @@ class WorkFactory extends Factory
     {
         $startTime = $this->faker->time('H:i:s');
         $endTime = Carbon::parse($startTime)->addHours(rand(3, 8))->format('H:i:s');
-        $today = Carbon::today()->toDateString();
+        $endDate = Carbon::today();
+        $startDate = $endDate->copy()->subDay(3);
 
 
         return [
             'user_id' => User::factory(),
-            'work_date' => $today,
+            'work_date' => $this->faker->dateTimeBetween($startDate, $endDate),
             'start_time' => $startTime,
             'end_time' => $endTime,
         ];
