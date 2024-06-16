@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -15,15 +14,10 @@ class WorkFactory extends Factory
      */
     public function definition()
     {
-        $startTime = $this->faker->time('H:i:s');
-        $endTime = Carbon::parse($startTime)->addHours(rand(3, 8))->format('H:i:s');
-        $endDate = Carbon::today();
-        $startDate = $endDate->copy()->subDay(3);
-
+        $startTime = $this->faker->dateTimeBetween('09:00:00', '12:00:00')->format('H:i:s');
+        $endTime = Carbon::parse($startTime)->addHours(rand(4, 8))->format('H:i:s');
 
         return [
-            'user_id' => User::factory(),
-            'work_date' => $this->faker->dateTimeBetween($startDate, $endDate),
             'start_time' => $startTime,
             'end_time' => $endTime,
         ];

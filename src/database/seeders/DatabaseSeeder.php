@@ -17,10 +17,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(8)->create()->each(function ($user) {
-            Work::factory(8)->for($user)->create()->each(function ($work) use ($user) {
-                Breaking::factory(rand(1, 3))->for($work)->for($user)->create();
-            });
+        User::factory()->create([
+            'name' => 'test',
+            'email' => 'test@test.com'
+        ]);
+        User::factory(10)->create()->each(function ($user) {
+            $today = Carbon::today();
+            for ($i = 0; $i < 7; $i++) {
+                $workDate = $today->copy()->subDays($i);
+
+                $work = Work::factory()->create([
+                    'user_id' => $user->id,
+                    'work_date' => $workDate
+                ]);
+
+                Breaking::factory(rand(0, 2))->create([
+                    'work_id' => $work->id,
+                    'user_id' => $user->id
+                ]);
+            }
         });
     }
 }

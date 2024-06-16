@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use App\Models\Work;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,12 +14,10 @@ class BreakingFactory extends Factory
      */
     public function definition()
     {
-        $startTime = $this->faker->time('H:i:s');
+        $startTime = $this-> faker->dateTimeBetween('12:00:00', '13:00:00')->format('H:i:s');
         $endTime = Carbon::parse($startTime)->addMinutes(rand(15, 120))->format('H:i:s');
 
         return [
-            'work_id' => Work::factory(),
-            'user_id' => User::factory(),
             'start_time' => $startTime,
             'end_time' => $endTime,
         ];

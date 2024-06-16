@@ -170,7 +170,7 @@ class StampController extends Controller
     public function userAttendance(Request $request)
     {
         $userName = User::find($request->userId)->name;
-        $works = Work::where('user_id', $request->userId)->orderby('work_date')->get();
+        $works = Work::where('user_id', $request->userId)->orderby('work_date', 'desc')->get();
         $stampData = [];
 
         foreach ($works as $work) {
