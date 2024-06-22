@@ -15,13 +15,13 @@
 }
 
 .attendance-table {
-    width: 50%;
+    width: 90%;
     margin: 50px auto;
 }
 
 .attendance-table th,
 td {
-    width: 20%;
+    width: 50%;
     text-align: left;
     padding: 20px 0 20px 30px;
     border-top: 1px solid #aaa;

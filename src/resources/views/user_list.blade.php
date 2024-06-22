@@ -10,7 +10,7 @@
     </div>
 
     <table class="attendance-table">
-        <tr>
+        <tr class="attendance-table-head">
             <th>名前</th>
             <th></th>
         </tr>

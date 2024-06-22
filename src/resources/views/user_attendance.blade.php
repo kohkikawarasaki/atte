@@ -10,7 +10,7 @@
     </div>
 
     <table class="attendance-table">
-        <tr>
+        <tr class="attendance-table-head">
             <th>日付</th>
             <th>勤務開始</th>
             <th>勤務終了</th>
@@ -20,10 +20,10 @@
         @foreach ($stampData as $stampdatum)
             <tr>
                 <td>{{ $stampdatum['work']->work_date }}</td>
-                <td>{{ $stampdatum['work']->start_time }}</td>
-                <td>{{ $stampdatum['work']->end_time }}</td>
-                <td>{{ $stampdatum['totalBreakTime'] }}</td>
-                <td>{{ $stampdatum['totalWorkTime'] }}</td>
+                <td data-label="勤務開始">{{ $stampdatum['work']->start_time }}</td>
+                <td data-label="勤務終了">{{ $stampdatum['work']->end_time }}</td>
+                <td data-label="休憩時間">{{ $stampdatum['totalBreakTime'] }}</td>
+                <td data-label="勤務時間">{{ $stampdatum['totalWorkTime'] }}</td>
             </tr>
         @endforeach
     </table>

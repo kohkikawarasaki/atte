@@ -19,7 +19,12 @@
             <h1 class="header-ttl">Atte</h1>
             @if (Auth::check())
                 <nav class="header-nav">
-                    <ul class="header-nav-list">
+                    <div class="hamburger-menu" id="hamburger-menu">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <ul class="header-nav-list" id="header-nav-list">
                         <li class="header-nav-item">
                             <a href="/">ホーム</a>
                         </li>
@@ -50,6 +55,12 @@
     <footer>
         <p>Atte, inc.</p>
     </footer>
+    <script>
+        document.getElementById('hamburger-menu').addEventListener('click', function() {
+            var navList = document.getElementById('header-nav-list');
+            navList.classList.toggle('show');
+        });
+    </script>
 </body>
 
 </html>
