@@ -75,8 +75,8 @@ php artisan db:seed
 ```
 
 ## テストユーザー
-email:test@test.com
-password:password
+- email : test@test.com
+- password : password
 
 ## テスト環境
 1. キャッシュの削除
