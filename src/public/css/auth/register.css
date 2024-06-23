@@ -1,0 +1,67 @@
+h2 {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.register-form {
+    margin: 0 auto;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.register-form input {
+    margin-top: 30px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #999;
+    border-radius: 4px;
+    background: #F2F2F2;
+}
+
+.register-form button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.register-form button:hover {
+    background-color: #0056b3;
+}
+
+.register-form__error {
+    margin: 0;
+    color: #f00;
+}
+
+.login-link {
+    margin: 30px auto;
+    text-align: center;
+    font-size: 14px;
+}
+
+.login-link p {
+    margin: 0;
+}
+
+.login-link a {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media (max-width:640px) {
+    .register-form {
+        width: 70%;
+    }
+
+    .login-link {
+        width: 70%;
+    }
+}
